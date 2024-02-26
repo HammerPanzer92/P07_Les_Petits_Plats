@@ -1,94 +1,84 @@
 import { searchArray } from "./utils/search.js";
 import { recipes } from "./Data/recipes.js";
+import {
+  getRecipeCardDOM,
+  getListAppliance,
+  getListIngredients,
+  getListUstensils
+} from "./utils/recipes.js";
 
 const searchInput = document.getElementById("searchBar");
 
 const divGrid = document.querySelector(".Recettes-grid");
 
+let searchResult = [];
+
 searchInput.oninput = () => {
   if (searchInput.value.length > 2) {
-
-    while(divGrid.firstChild){
-        divGrid.removeChild(divGrid.firstChild);
+    while (divGrid.firstChild) {
+      divGrid.removeChild(divGrid.firstChild);
     }
 
-    let resultSearch = searchArray(recipes, searchInput.value);
+    searchResult = searchArray(recipes, searchInput.value);
 
-    resultSearch.forEach((result) => {
-      const article = document.createElement("article");
-      const titre = document.createElement("h1");
-      titre.innerText = result.name;
-
-      article.appendChild(titre);
-
-      const description = document.createElement("p");
-      description.innerText = result.description;
-
-      article.appendChild(description);
-
-      const listeIngredients = document.createElement("ul");
-
-      result.ingredients.forEach((ingredient) => {
-        const ligne = document.createElement("li");
-
-        if (ingredient.unit) {
-          ligne.innerText =
-            ingredient.quantity +
-            " " +
-            ingredient.unit +
-            " de " +
-            ingredient.ingredient;
-        } else {
-          ligne.innerText = ingredient.quantity + "  " + ingredient.ingredient;
-        }
-
-        listeIngredients.appendChild(ligne);
-      });
-
-      article.appendChild(listeIngredients);
-
-      divGrid.appendChild(article);
+    searchResult.forEach((result) => {
+      divGrid.appendChild(getRecipeCardDOM(result));
     });
+
+    updateFilterSelect(searchResult);
   } else if (searchInput.value.length == 0) {
-    while(divGrid.firstChild){
-        divGrid.removeChild(divGrid.firstChild);
+    while (divGrid.firstChild) {
+      divGrid.removeChild(divGrid.firstChild);
     }
 
-    recipes.forEach((recipes) => {
-      const article = document.createElement("article");
-      const titre = document.createElement("h1");
-      titre.innerText = recipes.name;
-
-      article.appendChild(titre);
-
-      const description = document.createElement("p");
-      description.innerText = recipes.description;
-
-      article.appendChild(description);
-
-      const listeIngredients = document.createElement("ul");
-
-      recipes.ingredients.forEach((ingredient) => {
-        const ligne = document.createElement("li");
-
-        if (ingredient.unit) {
-          ligne.innerText =
-            ingredient.quantity +
-            " " +
-            ingredient.unit +
-            " de " +
-            ingredient.ingredient;
-        } else {
-          ligne.innerText = ingredient.quantity + "  " + ingredient.ingredient;
-        }
-
-        listeIngredients.appendChild(ligne);
-      });
-
-      article.appendChild(listeIngredients);
-
-      divGrid.appendChild(article);
+    recipes.forEach((recipe) => {
+      divGrid.appendChild(getRecipeCardDOM(recipe));
     });
   }
 };
 
+/**
+ * Mets à jour les select pour afficher que les élèments utilisés dans les recettes
+ * indiqués
+ * @param {Array} recipesList Tableau des recettes
+ */
+function updateFilterSelect(recipesList){
+  let ingredientsList = getListIngredients(recipesList);
+
+  let ustensilsList = getListUstensils(recipesList);
+
+  let applianceList = getListAppliance(recipesList);
+
+  //Mise à jour du select pour les ingrédients
+  const filterIngredient = document.getElementById("ingredientfilter")
+
+  ingredientsList.forEach((element) => {
+    const option = document.createElement("option");
+    option.value = element;
+    option.innerText = element;
+
+    filterIngredient.appendChild(option);
+  });
+
+  //Mise à jour du select pour les appareils
+  const filterAppliance = document.getElementById("appliancefilter")
+
+  applianceList.forEach((element) => {
+    const option = document.createElement("option");
+    option.value = element;
+    option.innerText = element;
+
+    filterAppliance.appendChild(option);
+  });
+
+  //Mise à jour du select des ustensils
+  const filterUstensils = document.getElementById("ustensilsfilter");
+
+  ustensilsList.forEach((element) => {
+    const option = document.createElement("option");
+    option.value = element;
+    option.innerText = element;
+
+    filterUstensils.appendChild(option);
+  });
+}
