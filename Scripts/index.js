@@ -41,15 +41,30 @@ function updateResultDOM() {
  * @param {HTMLSelectElement} filterDOM Le DOM du select
  * @param {Function} searchFunction Fonction de recherche
  */
-function searchFilter(filterDOM, searchFunction){
-  const selected =  filterDOM.value;
-  searchResult = searchFunction(searchResult, selected);
-  updateResultDOM();
+function searchFilter(filterDOM, searchFunction) {
+  const selected = filterDOM.value;
 
-  for(let i =0; i < filterDOM.childNodes.length; i++) {
-    if(filterDOM.childNodes[i].value === selected){
-      filterDOM.childNodes[i].selected = true;
-      break;
+  if (selected !== "none") {
+    searchResult = searchFunction(searchResult, selected);
+    updateResultDOM();
+
+    for (let i = 0; i < filterDOM.childNodes.length; i++) {
+      if (filterDOM.childNodes[i].value === selected) {
+        filterDOM.childNodes[i].selected = true;
+        break;
+      }
+    }
+  }else{
+    const valIngredient = selectIngredient.value;
+
+    const valApp = selectAppliance.value;
+
+    const valUstensil = selectUstensils.value;
+
+    if(valIngredient === "none" && valUstensil === "none" && valApp === "none"){
+      searchResult = searchArray(recipes, searchInput.value);
+
+      updateResultDOM();
     }
   }
 }
