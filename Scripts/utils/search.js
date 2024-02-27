@@ -4,27 +4,35 @@
  * @param {String} input La valeur qu'on cherche
  * @returns {Array} Un tableau correspond au résultat de la recherche
  */
-export function searchArray(array, input){
-    return array.filter((recipe) =>{
+export function searchArray(array, input) {
+  const inputLow = input.toLowerCase();
 
-        //On vérifie si la recherche correspond au nom ou a la description
-        if(recipe.name.includes(input)){
-            return true;
-        }else if(recipe.description.includes(input)){
-            return true;
-        }
-        
-        let result = false;
+  return array.filter((recipe) => {
 
-        //On vérifie si la recherche correspond a un ingrédient
-        recipe.ingredients.forEach((ingredient) => {
-            if(ingredient.ingredient.includes(input)){
-                result = true;
-            }
-        });
+    const nom = recipe.name.toLowerCase();
 
-        return result;
-    } )
+    const desc = recipe.description.toLowerCase();
+
+    //On vérifie si la recherche correspond au nom ou a la description
+    if (nom.includes(inputLow)) {
+      return true;
+    } else if (desc.includes(inputLow)) {
+      return true;
+    }
+
+    let result = false;
+
+    //On vérifie si la recherche correspond a un ingrédient
+    recipe.ingredients.forEach((ingredient) => {
+      const nomIngredient = ingredient.ingredient.toLowerCase()
+
+      if (nomIngredient.includes(inputLow)) {
+        result = true;
+      }
+    });
+
+    return result;
+  });
 }
 
 /**
@@ -33,19 +41,22 @@ export function searchArray(array, input){
  * @param {String} input L'ingrédient recherché
  * @returns Tableau contenant le résultat de la recherche
  */
-export function searchByIngredient(array, input){
-    return array.filter((recipe) =>{
-        let result = false;
+export function searchByIngredient(array, input) {
+  const inputLow = input.toLowerCase();
 
-        //On vérifie si la recherche correspond a un ingrédient
-        recipe.ingredients.forEach((ingredient) => {
-            if(ingredient.ingredient.includes(input)){
-                result = true;
-            }
-        });
+  return array.filter((recipe) => {
+    let result = false;
 
-        return result;
+    //On vérifie si la recherche correspond a un ingrédient
+    recipe.ingredients.forEach((ingredient) => {
+      const nomIngredient = ingredient.ingredient.toLowerCase();
+      if (inputLow === nomIngredient) {
+        result = true;
+      }
     });
+
+    return result;
+  });
 }
 
 /**
@@ -54,14 +65,18 @@ export function searchByIngredient(array, input){
  * @param {String} input L'appareil recherché
  * @returns Tableau contenant le résultat de la recherche
  */
-export function searchByAppliance(array, input){
-    return array.filter((recipe) => {
-        if(recipe.appliance === input){
-            return true;
-        }else{
-            return false;
-        }
-    });
+export function searchByAppliance(array, input) {
+  const inputLow = input.toLowerCase();
+
+  return array.filter((recipe) => {
+    const nomAppareil = recipe.appliance.toLowerCase()
+
+    if (nomAppareil === inputLow) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 }
 
 /**
@@ -70,16 +85,18 @@ export function searchByAppliance(array, input){
  * @param {String} input L'ustensil recherché
  * @returns Tableau contenant le résultat de la recherche
  */
-export function searchByUstensils(array, input){
-    return array.filter((recipe) =>{
-        let result = false;
+export function searchByUstensils(array, input) {
+  const inputLow = input.toLowerCase();
 
-        recipe.ustensils.forEach((ustensil) =>{
-            if(ustensil === input){
-                result = true;
-            }
-        });
+  return array.filter((recipe) => {
+    let result = false;
 
-        return result;
+    recipe.ustensils.forEach((ustensil) => {
+      if (ustensil.toLowerCase() === inputLow) {
+        result = true;
+      }
     });
+
+    return result;
+  });
 }
