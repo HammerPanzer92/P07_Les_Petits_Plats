@@ -45,13 +45,18 @@ export function getRecipeCardDOM(recipe) {
 export function getListIngredients(recipes) {
   let ingredientList = [];
 
-  recipes.forEach((recipe) => {
-    recipe.ingredients.forEach((i) => {
-      if (!ingredientList.includes(i.ingredient)) {
-        ingredientList.push(i.ingredient);
-      }
-    });
-  });
+  for(let i = 0; i < recipes.length; i++) {
+    for(let j = 0; j < recipes[i].ingredients.length; j++){
+
+        const nomIngredient = recipes[i].ingredients[j].ingredient.toLowerCase();
+
+        if (!ingredientList.includes(nomIngredient)){
+            ingredientList.push(recipes[i].ingredients[j].ingredient);
+        }
+    }
+  }
+
+  console.log(ingredientList);
 
   return ingredientList;
 }
@@ -64,11 +69,11 @@ export function getListIngredients(recipes) {
 export function getListAppliance(recipes) {
   let applianceList = [];
 
-  recipes.forEach((recipe) => {
-    if (!applianceList.includes(recipe.appliance)) {
-      applianceList.push(recipe.appliance);
+  for(let i = 0; i < recipes.length; i++) {
+    if(!applianceList.includes(recipes[i].appliance)){
+        applianceList.push(recipes[i].appliance);
     }
-  });
+  }
 
   return applianceList;
 }
@@ -81,13 +86,13 @@ export function getListAppliance(recipes) {
 export function getListUstensils(recipes) {
   let ustensilsList = [];
 
-  recipes.forEach((recipe) => {
-    recipe.ustensils.forEach((ustensil) => {
-      if (!ustensilsList.includes(ustensil)) {
-        ustensilsList.push(ustensil);
-      }
-    });
-  });
+  for(let i = 0; i < recipes.length; i++){
+    for(let j = 0; j < recipes[i].ustensils.length; j++){
+        if(!ustensilsList.includes(recipes[i].ustensils[j])){
+            ustensilsList.push(recipes[i].ustensils[j]);
+        }
+    }
+  }
 
   return ustensilsList;
 }

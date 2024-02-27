@@ -4,27 +4,34 @@
  * @param {String} input La valeur qu'on cherche
  * @returns {Array} Un tableau correspond au résultat de la recherche
  */
-export function searchArray(array, input){
-    return array.filter((recipe) =>{
+export function searchArray(array, input) {
+  const result = [];
 
-        //On vérifie si la recherche correspond au nom ou a la description
-        if(recipe.name.includes(input)){
-            return true;
-        }else if(recipe.description.includes(input)){
-            return true;
-        }
-        
-        let result = false;
+  for (let i = 0; i < array.length; i++) {
+    var recipe = array[i];
 
-        //On vérifie si la recherche correspond a un ingrédient
-        recipe.ingredients.forEach((ingredient) => {
-            if(ingredient.ingredient.includes(input)){
-                result = true;
-            }
-        });
+    //On vérifie si la recherche correspond au nom ou a la description
+    if (recipe.name.includes(input)) {
+      result.push(recipe);
+      continue;
+    } else if (recipe.description.includes(input)) {
+      result.push(recipe);
+      continue;
+    }
 
-        return result;
-    } )
+    for (let j = 0; j < recipe.ingredients.length; j++) {
+      const inputLow = input.toLowerCase();
+
+      const nomIngredient = recipe.ingredients[j].ingredient.toLowerCase();
+
+      if (inputLow === nomIngredient) {
+        result.push(recipe);
+        break;
+      }
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -33,19 +40,22 @@ export function searchArray(array, input){
  * @param {String} input L'ingrédient recherché
  * @returns Tableau contenant le résultat de la recherche
  */
-export function searchByIngredient(array, input){
-    return array.filter((recipe) =>{
-        let result = false;
+export function searchByIngredient(array, input) {
+  const result = [];
+  const inputLow = input.toLowerCase();
 
-        //On vérifie si la recherche correspond a un ingrédient
-        recipe.ingredients.forEach((ingredient) => {
-            if(ingredient.ingredient.includes(input)){
-                result = true;
-            }
-        });
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].ingredients.length; j++) {
+      const nomIngredient = array[i].ingredients[j].ingredient.toLowerCase();
 
-        return result;
-    });
+      if (inputLow === nomIngredient) {
+        result.push(array[i]);
+        break;
+      }
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -54,14 +64,18 @@ export function searchByIngredient(array, input){
  * @param {String} input L'appareil recherché
  * @returns Tableau contenant le résultat de la recherche
  */
-export function searchByAppliance(array, input){
-    return array.filter((recipe) => {
-        if(recipe.appliance === input){
-            return true;
-        }else{
-            return false;
-        }
-    });
+export function searchByAppliance(array, input) {
+  const result = [];
+  const inputLow = input.toLowerCase();
+
+  for (let i = 0; i < array.length; i++) {
+    const nomAppareil = array[i].appliance.toLowerCase();
+
+    if (inputLow === nomAppareil) {
+      result.push(array[i]);
+    }
+  }
+  return result;
 }
 
 /**
@@ -70,16 +84,20 @@ export function searchByAppliance(array, input){
  * @param {String} input L'ustensil recherché
  * @returns Tableau contenant le résultat de la recherche
  */
-export function searchByUstensils(array, input){
-    return array.filter((recipe) =>{
-        let result = false;
+export function searchByUstensils(array, input) {
+  const result = [];
+  const inputLow = input.toLowerCase();
 
-        recipe.ustensils.forEach((ustensil) =>{
-            if(ustensil === input){
-                result = true;
-            }
-        });
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].ustensils.length; j++) {
+      const nomUstensil = array[i].ustensils[j].toLowerCase();
 
-        return result;
-    });
+      if (inputLow === nomUstensil) {
+        result.push(array[i]);
+        break;
+      }
+    }
+  }
+
+  return result;
 }

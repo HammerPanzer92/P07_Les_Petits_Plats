@@ -10,7 +10,7 @@ import { updateFilterAll } from "./utils/select.js";
 
 const searchInput = document.getElementById("searchBar");
 
-const divGrid = document.querySelector(".Recettes-grid");
+const divGrid = document.querySelector(".recettes-grid");
 
 const selectIngredient = document.getElementById("ingredientfilter");
 
