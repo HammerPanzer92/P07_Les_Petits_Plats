@@ -26,3 +26,60 @@ export function searchArray(array, input){
         return result;
     } )
 }
+
+/**
+ * Recherche par ingrédients
+ * @param {Array} array Tableau des recettes sur lequel cherché
+ * @param {String} input L'ingrédient recherché
+ * @returns Tableau contenant le résultat de la recherche
+ */
+export function searchByIngredient(array, input){
+    return array.filter((recipe) =>{
+        let result = false;
+
+        //On vérifie si la recherche correspond a un ingrédient
+        recipe.ingredients.forEach((ingredient) => {
+            if(ingredient.ingredient.includes(input)){
+                result = true;
+            }
+        });
+
+        return result;
+    });
+}
+
+/**
+ * Recherche par appareils
+ * @param {Array} array Tableau des recettes sur lequel cherché
+ * @param {String} input L'appareil recherché
+ * @returns Tableau contenant le résultat de la recherche
+ */
+export function searchByAppliance(array, input){
+    return array.filter((recipe) => {
+        if(recipe.appliance === input){
+            return true;
+        }else{
+            return false;
+        }
+    });
+}
+
+/**
+ * Recherche par ustensils
+ * @param {Array} array Tableau des recettes sur lequel cherché
+ * @param {String} input L'ustensil recherché
+ * @returns Tableau contenant le résultat de la recherche
+ */
+export function searchByUstensils(array, input){
+    return array.filter((recipe) =>{
+        let result = false;
+
+        recipe.ustensils.forEach((ustensil) =>{
+            if(ustensil === input){
+                result = true;
+            }
+        });
+
+        return result;
+    });
+}

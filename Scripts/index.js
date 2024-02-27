@@ -1,84 +1,92 @@
-import { searchArray } from "./utils/search.js";
-import { recipes } from "./Data/recipes.js";
 import {
-  getRecipeCardDOM,
-  getListAppliance,
-  getListIngredients,
-  getListUstensils
-} from "./utils/recipes.js";
+  searchArray,
+  searchByAppliance,
+  searchByIngredient,
+  searchByUstensils,
+} from "./utils/search.js";
+import { recipes } from "./Data/recipes.js";
+import { getRecipeCardDOM } from "./utils/recipes.js";
+import { updateFilterAll } from "./utils/select.js";
 
 const searchInput = document.getElementById("searchBar");
 
 const divGrid = document.querySelector(".Recettes-grid");
 
+const selectIngredient = document.getElementById("ingredientfilter");
+
+const selectAppliance = document.getElementById("appliancefilter");
+
+const selectUstensils = document.getElementById("ustensilsfilter");
+
+//Variable contenant le résultat de la recherche (ou pointe vers toutes les recettes par défaut)
 let searchResult = [];
 
-searchInput.oninput = () => {
-  if (searchInput.value.length > 2) {
-    while (divGrid.firstChild) {
-      divGrid.removeChild(divGrid.firstChild);
-    }
-
-    searchResult = searchArray(recipes, searchInput.value);
-
-    searchResult.forEach((result) => {
-      divGrid.appendChild(getRecipeCardDOM(result));
-    });
-
-    updateFilterSelect(searchResult);
-  } else if (searchInput.value.length == 0) {
-    while (divGrid.firstChild) {
-      divGrid.removeChild(divGrid.firstChild);
-    }
-
-    recipes.forEach((recipe) => {
-      divGrid.appendChild(getRecipeCardDOM(recipe));
-    });
-  }
-};
-
 /**
- * Mets à jour les select pour afficher que les élèments utilisés dans les recettes
- * indiqués
- * @param {Array} recipesList Tableau des recettes
+ * Mets à jour le DOM pour afficher le résultat de la recherche
  */
-function updateFilterSelect(recipesList){
-  let ingredientsList = getListIngredients(recipesList);
+function updateResultDOM() {
+  while (divGrid.firstChild) {
+    divGrid.removeChild(divGrid.firstChild);
+  }
 
-  let ustensilsList = getListUstensils(recipesList);
+  updateFilterAll(searchResult);
 
-  let applianceList = getListAppliance(recipesList);
-
-  //Mise à jour du select pour les ingrédients
-  const filterIngredient = document.getElementById("ingredientfilter")
-
-  ingredientsList.forEach((element) => {
-    const option = document.createElement("option");
-    option.value = element;
-    option.innerText = element;
-
-    filterIngredient.appendChild(option);
-  });
-
-  //Mise à jour du select pour les appareils
-  const filterAppliance = document.getElementById("appliancefilter")
-
-  applianceList.forEach((element) => {
-    const option = document.createElement("option");
-    option.value = element;
-    option.innerText = element;
-
-    filterAppliance.appendChild(option);
-  });
-
-  //Mise à jour du select des ustensils
-  const filterUstensils = document.getElementById("ustensilsfilter");
-
-  ustensilsList.forEach((element) => {
-    const option = document.createElement("option");
-    option.value = element;
-    option.innerText = element;
-
-    filterUstensils.appendChild(option);
+  searchResult.forEach((recipe) => {
+    divGrid.appendChild(getRecipeCardDOM(recipe));
   });
 }
+
+/**
+ * Effectue la recherche (via le paramétre searchFunction) via le filtre
+ * @param {HTMLSelectElement} filterDOM Le DOM du select
+ * @param {Function} searchFunction Fonction de recherche
+ */
+function searchFilter(filterDOM, searchFunction){
+  const selected =  filterDOM.value;
+  searchResult = searchFunction(searchResult, selected);
+  updateResultDOM();
+
+  for(let i =0; i < filterDOM.childNodes.length; i++) {
+    if(filterDOM.childNodes[i].value === selected){
+      filterDOM.childNodes[i].selected = true;
+      break;
+    }
+  }
+}
+
+//Gestion de l'input
+searchInput.oninput = () => {
+  //Suppression de la liste des recettes actuellement affichés
+  while (divGrid.firstChild) {
+    divGrid.removeChild(divGrid.firstChild);
+  }
+
+  if (searchInput.value.length > 2) {
+    searchResult = searchArray(recipes, searchInput.value);
+  } else if (searchInput.value.length == 0) {
+    searchResult = recipes;
+  }
+
+  updateResultDOM();
+};
+
+//Gestion des select (via searchFilter)
+selectIngredient.onchange = () => {
+  searchFilter(selectIngredient, searchByIngredient);
+};
+
+selectAppliance.onchange = () => {
+  searchFilter(selectAppliance, searchByAppliance);
+};
+
+selectUstensils.onchange = () => {
+  searchFilter(selectUstensils, searchByUstensils);
+};
+
+function init() {
+  searchResult = recipes;
+
+  updateResultDOM();
+}
+
+init();
