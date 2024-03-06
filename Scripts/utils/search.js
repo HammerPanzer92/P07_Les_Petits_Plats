@@ -100,3 +100,28 @@ export function searchByUstensils(array, input) {
     return result;
   });
 }
+
+/**
+ * Fait une recherche sur tout les tags sélectionner
+ * @param {Array} array Tableau sur lequel effectué la recherche
+ * @param {Object} tagsObject Objet contenant tout les tags sélectionnés
+ * @returns Le tableau contenant le résultat de la recherche
+ */
+export function searchAllTags(array, tagsObject){
+
+  let result = array;
+
+  tagsObject["ingredients-list"].forEach((ingredient) => {
+    result = searchByIngredient(result, ingredient);
+  });
+
+  tagsObject["appliances-list"].forEach((appliance) => {
+    result = searchByAppliance(result, appliance);
+  });
+
+  tagsObject["ustensils-list"].forEach((ustensil) => {
+    result = searchByUstensils(result, ustensil);
+  });
+
+  return result;
+}

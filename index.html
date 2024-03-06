@@ -11,19 +11,40 @@
     <label for="searchBar" class="search-bar">Recherce :</label>
     <input type="text" id="searchBar" placeholder="Rechercher...">
 
-    <select id="ingredientfilter">
-        <option value="none">Ingrédients</option>
-    </select>
+    <div class="tags-container">
+        <div class="filter-container" id="ingredient-block">
+            <label for="ingredient-input"></label>
+            <input type="text" id="ingredient-input" placeholder="Ingrédients...">
+            <div class="tags-list-container">
+                <ul class="tags-list" id="ingredients-list">
 
-    <select id="appliancefilter">
-        <option value="none">Appareils</option>
-    </select>
+                </ul>
+            </div>
+        </div>
 
-    <select id="ustensilsfilter">
-        <option value="none">Ustensils</option>
-    </select>
+        <div class="filter-container" id="ingredient-block">
+            <label for="ingredient-input"></label>
+            <input type="text" id="appliances-input" placeholder="Appareil...">
+            <div class="tags-list-container">
+                <ul class="tags-list" id="appliances-list">
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="filter-container" id="ingredient-block">
+            <label for="ingredient-input"></label>
+            <input type="text" id="ustensils-input" placeholder="Ustensil...">
+            <div class="tags-list-container">
+                <ul class="tags-list" id="ustensils-list">
+
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <div id="searchResult" class="Recettes-grid"></div>
+    
     <script type="module" src="./Scripts/index.js"></script>
 </body>
 
