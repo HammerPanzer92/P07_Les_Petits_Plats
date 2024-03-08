@@ -16,8 +16,12 @@
             <label for="ingredient-input"></label>
             <input type="text" id="ingredient-input" placeholder="Ingrédients...">
             <div class="tags-list-container">
-                <ul class="tags-list" id="ingredients-list">
+                <ul class="selected-list" id="selected-ingredients">
+                    <!--Liste des tags sélectionnés-->
+                </ul>
 
+                <ul class="tags-list" id="ingredients-list">
+                    <!--Liste des tags générés via JS-->
                 </ul>
             </div>
         </div>
@@ -42,6 +46,10 @@
             </div>
         </div>
     </div>
+
+    <ul class="select-tags-list" id="select-tags-list">
+        
+    </ul>
 
     <div id="searchResult" class="Recettes-grid"></div>
     

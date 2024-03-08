@@ -1,10 +1,13 @@
-import { searchAllTags } from "./utils/search.js";
+import { searchAllTags, searchArray } from "./utils/search.js";
 import { recipes } from "./Data/recipes.js";
 import { getRecipeCardDOM } from "./utils/recipes.js";
 import { updateFilterAll } from "./utils/select.js";
 
 //Element UL contenant les tags (ingrédients, appareils etc...)
 const tagsListDOM = document.querySelectorAll(".tags-list");
+
+//Input de recherche général
+const searchInput = document.getElementById("searchBar");
 
 //Résultat de la recherche actuelle (pa défaut toute les recettes)
 let searchResults = recipes;
@@ -14,6 +17,30 @@ const selectedTagsList = {
   "ingredients-list": [],
   "appliances-list": [],
   "ustensils-list": [],
+};
+
+/**
+ * Lance une recherche basé via la valeur de l'input
+ * @returns Le tableau de résultats si l'input contient une valeur sinon renvoie toutes les recettes
+ */
+function searchByInput(){
+  const value = searchInput.value;
+
+  let result = [];
+
+  if(value.length > 2){
+    result = searchArray(recipes,valeur);
+  }else{
+    result = recipes;
+  }
+
+  return result;
+}
+
+searchInput.oninput = () => {
+  searchResults = searchByInput();
+
+  updateIndexDOM();
 };
 
 /**
@@ -48,7 +75,7 @@ function updateIndexDOM() {
 }
 
 /**
- * Ajout le tag souhaité dans la liste.
+ * Ajoute le tag souhaité dans la liste.
  * Note : a placé sur un onclick
  * @param {Event} e L'event de l'élément
  */
@@ -59,22 +86,17 @@ function clickTag(e) {
 
   if (!selectedTagsList[idList].includes(e.target.innerText)) {
     selectedTagsList[idList].push(e.target.innerText);
-    //A faire : modifié classList
   } else {
     selectedTagsList[idList].splice(idList.indexOf(e.target.innerText), 1);
   }
 
+  searchResults = searchByInput();
   searchResults = searchAllTags(searchResults, selectedTagsList);
-
-  console.log("Result :");
-  console.log(searchResults);
 
   updateIndexDOM();
 }
 
 function init() {
-  console.log("Init :");
-  console.log(searchResults);
   updateIndexDOM();
 }
 

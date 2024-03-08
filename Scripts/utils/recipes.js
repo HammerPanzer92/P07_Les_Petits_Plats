@@ -1,3 +1,5 @@
+import { formatString } from "./strings";
+
 /**
  * Créé la card pour la recette
  * @param {Object} recipe La recette
@@ -47,8 +49,10 @@ export function getListIngredients(recipes) {
 
   recipes.forEach((recipe) => {
     recipe.ingredients.forEach((i) => {
-      if (!ingredientList.includes(i.ingredient)) {
-        ingredientList.push(i.ingredient);
+      const nomIngredient = formatString(i.ingredient);
+
+      if (!ingredientList.includes(nomIngredient)) {
+        ingredientList.push(nomIngredient);
       }
     });
   });
@@ -65,8 +69,10 @@ export function getListAppliance(recipes) {
   let applianceList = [];
 
   recipes.forEach((recipe) => {
-    if (!applianceList.includes(recipe.appliance)) {
-      applianceList.push(recipe.appliance);
+    const nomAppareil = formatString(recipe.appliance);
+
+    if (!applianceList.includes(nomAppareil)) {
+      applianceList.push(nomAppareil);
     }
   });
 
@@ -83,8 +89,10 @@ export function getListUstensils(recipes) {
 
   recipes.forEach((recipe) => {
     recipe.ustensils.forEach((ustensil) => {
-      if (!ustensilsList.includes(ustensil)) {
-        ustensilsList.push(ustensil);
+      const nomUstensil = formatString(ustensil);
+
+      if (!ustensilsList.includes(nomUstensil)) {
+        ustensilsList.push(nomUstensil);
       }
     });
   });

@@ -4,6 +4,8 @@ import {
   getListUstensils,
 } from "./recipes.js";
 
+const selectTagsListDOM = document.getElementById("select-tags-list");
+
 /**
  * Mets à jour d'un select pour afficher les options souhaités
  * @param {HTMLUListElement} ULDom Element DOM de la liste a modifié
@@ -33,19 +35,20 @@ export function updateFilterSelect(ulDOM, tagsList, searchResults) {
       break;
   }
 
-  console.log(resultTags);
+  console.log("updateFilter searchResult : ");
+  console.log(searchResults);
 
-  resultTags.forEach((tag) =>{
+  resultTags.forEach((tag) => {
     const line = document.createElement("li");
     line.innerText = tag;
 
     //Ajout de la classe si tag in tagslist
-    if(tagsList[ulId].includes(tag)){
-      console.log("Found"); 
+    if (tagsList[ulId].includes(tag)) {
+      selectTagsListDOM.appendChild(line);
+    } else {
+      ulDOM.appendChild(line);
     }
-
-    ulDOM.appendChild(line);
-  })
+  });
 }
 
 /**
@@ -55,6 +58,10 @@ export function updateFilterSelect(ulDOM, tagsList, searchResults) {
  * @param {Array} searchResults Liste des recettes
  */
 export function updateFilterAll(listDOM, listTags, searchResults) {
+  while (selectTagsListDOM.firstChild) {
+    selectTagsListDOM.removeChild(selectTagsListDOM.firstChild);
+  }
+
   listDOM.forEach((node) => {
     updateFilterSelect(node, listTags, searchResults);
   });
