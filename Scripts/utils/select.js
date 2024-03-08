@@ -10,7 +10,7 @@ const selectTagsListDOM = document.getElementById("select-tags-list");
  * Mets à jour d'un select pour afficher les options souhaités
  * @param {HTMLUListElement} ULDom Element DOM de la liste a modifié
  * @param {Object} tagsList Liste des tags sélectionné
- * @param {Array} searchResultst Liste des recettes sur laquelle effectué la recherche
+ * @param {Array} searchResults Liste des recettes sur laquelle effectué la recherche
  */
 export function updateFilterSelect(ulDOM, tagsList, searchResults) {
   while (ulDOM.firstChild) {
@@ -20,6 +20,10 @@ export function updateFilterSelect(ulDOM, tagsList, searchResults) {
   const ulId = ulDOM.id;
 
   let resultTags = [];
+
+  const selectedListId = "selected-" + ulId.split("-")[0];
+
+  const selectedListDOM = document.getElementById(selectedListId);
 
   switch (ulId) {
     case "ingredients-list":
@@ -44,7 +48,10 @@ export function updateFilterSelect(ulDOM, tagsList, searchResults) {
 
     //Ajout de la classe si tag in tagslist
     if (tagsList[ulId].includes(tag)) {
+      const lineSelectedList = line.cloneNode();
+
       selectTagsListDOM.appendChild(line);
+      selectedListDOM.appendChild(lineSelectedList);
     } else {
       ulDOM.appendChild(line);
     }
