@@ -11,6 +11,9 @@ const selectTagsListDOM = document.getElementById("select-tags-list");
 
 const selectedListsDOMs = document.querySelectorAll(".selected-list");
 
+//Input de recherche dans les tags
+const tagsInput = document.querySelectorAll(".tag-search-input");
+
 //Résultat de la recherche actuelle (pa défaut toute les recettes)
 let searchResults = recipes;
 
@@ -21,6 +24,26 @@ const selectedTagsList = {
   "ustensils-list": [],
 };
 
+tagsInput.forEach((input) => {
+  input.oninput = (e) => {
+    const element = e.target;
+
+    const type = element.id.split("-")[0];
+
+    console.log(type + "-list");
+
+    const listTarget = document.getElementById(type + "-list");
+
+    listTarget.childNodes.forEach((node) => {
+      if(!node.innerText.includes(element.value)){
+        node.style.display = "none";
+      }else{
+        node.style.display = "list-item";
+      }
+    });
+  }
+});
+
 /**
  * Lance une recherche basé via la valeur de l'input
  * @returns Le tableau de résultats si l'input contient une valeur sinon renvoie toutes les recettes
@@ -30,8 +53,6 @@ function searchByInput() {
   const searchInput = document.getElementById("searchBar");
 
   const value = searchInput.value;
-
-  console.log("input value: " + value);
 
   let result = [];
 
@@ -55,6 +76,10 @@ document.getElementById("searchBar").oninput = () => {
  */
 function updateIndexDOM() {
   updateFilterAll(tagsListDOM, selectedTagsList, searchResults);
+
+  tagsInput.forEach((input) => {
+    input.value = "";
+  })
 
   const gridDOM = document.getElementById("searchResult");
 
