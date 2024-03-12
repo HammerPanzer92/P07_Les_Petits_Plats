@@ -1,4 +1,4 @@
-import { formatString } from "./strings";
+import { formatString } from "./strings.js";
 
 /**
  * Créé la card pour la recette

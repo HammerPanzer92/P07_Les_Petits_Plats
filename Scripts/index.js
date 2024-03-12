@@ -6,8 +6,10 @@ import { updateFilterAll } from "./utils/select.js";
 //Element UL contenant les tags (ingrédients, appareils etc...)
 const tagsListDOM = document.querySelectorAll(".tags-list");
 
-//Input de recherche général
-const searchInput = document.getElementById("searchBar");
+//Element UL contenant tout les tags sélectionnés
+const selectTagsListDOM = document.getElementById("select-tags-list");
+
+const selectedListsDOMs = document.querySelectorAll(".selected-list");
 
 //Résultat de la recherche actuelle (pa défaut toute les recettes)
 let searchResults = recipes;
@@ -23,33 +25,36 @@ const selectedTagsList = {
  * Lance une recherche basé via la valeur de l'input
  * @returns Le tableau de résultats si l'input contient une valeur sinon renvoie toutes les recettes
  */
-function searchByInput(){
+function searchByInput() {
+  //Input de recherche général
+  const searchInput = document.getElementById("searchBar");
+
   const value = searchInput.value;
+
+  console.log("input value: " + value);
 
   let result = [];
 
-  if(value.length > 2){
-    result = searchArray(recipes,valeur);
-  }else{
+  if (value.length > 2) {
+    result = searchArray(recipes, valeur);
+  } else {
     result = recipes;
   }
 
   return result;
 }
 
-searchInput.oninput = () => {
+document.getElementById("searchBar").addEventListener("input", () => {
+  console.log("input");
   searchResults = searchByInput();
 
   updateIndexDOM();
-};
+});
 
 /**
  * Mets à jour l'affiche de la page index
  */
 function updateIndexDOM() {
-  console.log("Update Index");
-  console.log(searchResults);
-
   updateFilterAll(tagsListDOM, selectedTagsList, searchResults);
 
   const gridDOM = document.getElementById("searchResult");
@@ -57,9 +62,6 @@ function updateIndexDOM() {
   while (gridDOM.firstChild) {
     gridDOM.removeChild(gridDOM.firstChild);
   }
-
-  console.log("After");
-  console.log(searchResults);
 
   searchResults.forEach((recipe) => {
     const recipeDOM = getRecipeCardDOM(recipe);
@@ -72,6 +74,16 @@ function updateIndexDOM() {
       node.onclick = clickTag;
     });
   });
+
+  selectTagsListDOM.childNodes.forEach((node) => {
+    node.onclick = clickSelectedTags;
+  });
+
+  selectedListsDOMs.forEach((list) => {
+    list.childNodes.forEach((node) => {
+      node.onclick = clickSelectedTags;
+    });
+  })
 }
 
 /**
@@ -87,7 +99,43 @@ function clickTag(e) {
   if (!selectedTagsList[idList].includes(e.target.innerText)) {
     selectedTagsList[idList].push(e.target.innerText);
   } else {
-    selectedTagsList[idList].splice(idList.indexOf(e.target.innerText), 1);
+    selectedTagsList[idList].splice(
+      selectedTagsList[idList].indexOf(e.target.innerText),
+      1
+    );
+  }
+  searchResults = searchByInput();
+
+  searchResults = searchAllTags(searchResults, selectedTagsList);
+
+  updateIndexDOM();
+}
+
+/**
+ * Fonction appelé lorsqu'on clique sur un tag sélectionné pour le supprimer de la liste (et mets à jour la recherche et le DOM)
+ * @param {Event} e L'event généré par le clique
+ */
+function clickSelectedTags(e) {
+  const element = e.target;
+
+  const nomTag = element.innerText;
+
+  for(let i in selectedTagsList) {
+
+    let found = false;
+
+    for(let j in selectedTagsList[i]){
+      if(selectedTagsList[i][j] === nomTag){
+        selectedTagsList[i].splice(selectedTagsList[i].indexOf(j), 1);
+        found = true;
+        element.parentNode.removeChild(element);
+        break;
+      }
+    }
+
+    if(found){
+      break;
+    }
   }
 
   searchResults = searchByInput();

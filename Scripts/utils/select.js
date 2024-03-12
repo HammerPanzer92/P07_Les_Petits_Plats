@@ -6,6 +6,8 @@ import {
 
 const selectTagsListDOM = document.getElementById("select-tags-list");
 
+const selectedListsDOM = document.querySelectorAll(".selected-list");
+
 /**
  * Mets à jour d'un select pour afficher les options souhaités
  * @param {HTMLUListElement} ULDom Element DOM de la liste a modifié
@@ -39,9 +41,6 @@ export function updateFilterSelect(ulDOM, tagsList, searchResults) {
       break;
   }
 
-  console.log("updateFilter searchResult : ");
-  console.log(searchResults);
-
   resultTags.forEach((tag) => {
     const line = document.createElement("li");
     line.innerText = tag;
@@ -49,6 +48,7 @@ export function updateFilterSelect(ulDOM, tagsList, searchResults) {
     //Ajout de la classe si tag in tagslist
     if (tagsList[ulId].includes(tag)) {
       const lineSelectedList = line.cloneNode();
+      lineSelectedList.innerText = tag;
 
       selectTagsListDOM.appendChild(line);
       selectedListDOM.appendChild(lineSelectedList);
@@ -68,6 +68,12 @@ export function updateFilterAll(listDOM, listTags, searchResults) {
   while (selectTagsListDOM.firstChild) {
     selectTagsListDOM.removeChild(selectTagsListDOM.firstChild);
   }
+
+  selectedListsDOM.forEach((element) => {
+    while(element.firstChild){
+      element.removeChild(element.firstChild);
+    }
+  })
 
   listDOM.forEach((node) => {
     updateFilterSelect(node, listTags, searchResults);
