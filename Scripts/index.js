@@ -36,7 +36,7 @@ function searchByInput() {
   let result = [];
 
   if (value.length > 2) {
-    result = searchArray(recipes, valeur);
+    result = searchArray(recipes, value);
   } else {
     result = recipes;
   }
@@ -44,12 +44,11 @@ function searchByInput() {
   return result;
 }
 
-document.getElementById("searchBar").addEventListener("input", () => {
-  console.log("input");
+document.getElementById("searchBar").oninput = () => {
   searchResults = searchByInput();
 
   updateIndexDOM();
-});
+}
 
 /**
  * Mets à jour l'affiche de la page index
