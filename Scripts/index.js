@@ -1,92 +1,175 @@
-import {
-  searchArray,
-  searchByAppliance,
-  searchByIngredient,
-  searchByUstensils,
-} from "./utils/search.js";
+import { searchAllTags, searchArray } from "./utils/search.js";
 import { recipes } from "./Data/recipes.js";
 import { getRecipeCardDOM } from "./utils/recipes.js";
 import { updateFilterAll } from "./utils/select.js";
 
-const searchInput = document.getElementById("searchBar");
+//Element UL contenant les tags (ingrédients, appareils etc...)
+const tagsListDOM = document.querySelectorAll(".tags-list");
 
-const divGrid = document.querySelector(".recettes-grid");
+//Element UL contenant tout les tags sélectionnés
+const selectTagsListDOM = document.getElementById("select-tags-list");
 
-const selectIngredient = document.getElementById("ingredientfilter");
+const selectedListsDOMs = document.querySelectorAll(".selected-list");
 
-const selectAppliance = document.getElementById("appliancefilter");
+//Input de recherche dans les tags
+const tagsInput = document.querySelectorAll(".tag-search-input");
 
-const selectUstensils = document.getElementById("ustensilsfilter");
+//Résultat de la recherche actuelle (pa défaut toute les recettes)
+let searchResults = recipes;
 
-//Variable contenant le résultat de la recherche (ou pointe vers toutes les recettes par défaut)
-let searchResult = [];
+//Listes des tags sélectionnés
+const selectedTagsList = {
+  "ingredients-list": [],
+  "appliances-list": [],
+  "ustensils-list": [],
+};
+
+tagsInput.forEach((input) => {
+  input.oninput = (e) => {
+    const element = e.target;
+
+    const type = element.id.split("-")[0];
+
+    console.log(type + "-list");
+
+    const listTarget = document.getElementById(type + "-list");
+
+    listTarget.childNodes.forEach((node) => {
+      if(!node.innerText.includes(element.value)){
+        node.style.display = "none";
+      }else{
+        node.style.display = "list-item";
+      }
+    });
+  }
+});
 
 /**
- * Mets à jour le DOM pour afficher le résultat de la recherche
+ * Lance une recherche basé via la valeur de l'input
+ * @returns Le tableau de résultats si l'input contient une valeur sinon renvoie toutes les recettes
  */
-function updateResultDOM() {
-  while (divGrid.firstChild) {
-    divGrid.removeChild(divGrid.firstChild);
+function searchByInput() {
+  //Input de recherche général
+  const searchInput = document.getElementById("searchBar");
+
+  const value = searchInput.value;
+
+  let result = [];
+
+  if (value.length > 2) {
+    result = searchArray(recipes, value);
+  } else {
+    result = recipes;
   }
 
-  updateFilterAll(searchResult);
+  return result;
+}
 
-  searchResult.forEach((recipe) => {
-    divGrid.appendChild(getRecipeCardDOM(recipe));
-  });
+document.getElementById("searchBar").oninput = () => {
+  searchResults = searchByInput();
+
+  updateIndexDOM();
 }
 
 /**
- * Effectue la recherche (via le paramétre searchFunction) via le filtre
- * @param {HTMLSelectElement} filterDOM Le DOM du select
- * @param {Function} searchFunction Fonction de recherche
+ * Mets à jour l'affiche de la page index
  */
-function searchFilter(filterDOM, searchFunction){
-  const selected =  filterDOM.value;
-  searchResult = searchFunction(searchResult, selected);
-  updateResultDOM();
+function updateIndexDOM() {
+  updateFilterAll(tagsListDOM, selectedTagsList, searchResults);
 
-  for(let i =0; i < filterDOM.childNodes.length; i++) {
-    if(filterDOM.childNodes[i].value === selected){
-      filterDOM.childNodes[i].selected = true;
+  tagsInput.forEach((input) => {
+    input.value = "";
+  })
+
+  const gridDOM = document.getElementById("searchResult");
+
+  while (gridDOM.firstChild) {
+    gridDOM.removeChild(gridDOM.firstChild);
+  }
+
+  searchResults.forEach((recipe) => {
+    const recipeDOM = getRecipeCardDOM(recipe);
+
+    gridDOM.appendChild(recipeDOM);
+  });
+
+  tagsListDOM.forEach((list) => {
+    list.childNodes.forEach((node) => {
+      node.onclick = clickTag;
+    });
+  });
+
+  selectTagsListDOM.childNodes.forEach((node) => {
+    node.onclick = clickSelectedTags;
+  });
+
+  selectedListsDOMs.forEach((list) => {
+    list.childNodes.forEach((node) => {
+      node.onclick = clickSelectedTags;
+    });
+  })
+}
+
+/**
+ * Ajoute le tag souhaité dans la liste.
+ * Note : a placé sur un onclick
+ * @param {Event} e L'event de l'élément
+ */
+function clickTag(e) {
+  const element = e.target;
+
+  const idList = element.parentNode.id;
+
+  if (!selectedTagsList[idList].includes(e.target.innerText)) {
+    selectedTagsList[idList].push(e.target.innerText);
+  } else {
+    selectedTagsList[idList].splice(
+      selectedTagsList[idList].indexOf(e.target.innerText),
+      1
+    );
+  }
+  searchResults = searchByInput();
+
+  searchResults = searchAllTags(searchResults, selectedTagsList);
+
+  updateIndexDOM();
+}
+
+/**
+ * Fonction appelé lorsqu'on clique sur un tag sélectionné pour le supprimer de la liste (et mets à jour la recherche et le DOM)
+ * @param {Event} e L'event généré par le clique
+ */
+function clickSelectedTags(e) {
+  const element = e.target;
+
+  const nomTag = element.innerText;
+
+  for(let i in selectedTagsList) {
+
+    let found = false;
+
+    for(let j in selectedTagsList[i]){
+      if(selectedTagsList[i][j] === nomTag){
+        selectedTagsList[i].splice(selectedTagsList[i].indexOf(j), 1);
+        found = true;
+        element.parentNode.removeChild(element);
+        break;
+      }
+    }
+
+    if(found){
       break;
     }
   }
+
+  searchResults = searchByInput();
+  searchResults = searchAllTags(searchResults, selectedTagsList);
+
+  updateIndexDOM();
 }
 
-//Gestion de l'input
-searchInput.oninput = () => {
-  //Suppression de la liste des recettes actuellement affichés
-  while (divGrid.firstChild) {
-    divGrid.removeChild(divGrid.firstChild);
-  }
-
-  if (searchInput.value.length > 2) {
-    searchResult = searchArray(recipes, searchInput.value);
-  } else if (searchInput.value.length == 0) {
-    searchResult = recipes;
-  }
-
-  updateResultDOM();
-};
-
-//Gestion des select (via searchFilter)
-selectIngredient.onchange = () => {
-  searchFilter(selectIngredient, searchByIngredient);
-};
-
-selectAppliance.onchange = () => {
-  searchFilter(selectAppliance, searchByAppliance);
-};
-
-selectUstensils.onchange = () => {
-  searchFilter(selectUstensils, searchByUstensils);
-};
-
 function init() {
-  searchResult = recipes;
-
-  updateResultDOM();
+  updateIndexDOM();
 }
 
 init();

@@ -1,3 +1,5 @@
+import { formatString } from "./strings.js";
+
 /**
  * Créé la card pour la recette
  * @param {Object} recipe La recette
@@ -45,18 +47,15 @@ export function getRecipeCardDOM(recipe) {
 export function getListIngredients(recipes) {
   let ingredientList = [];
 
-  for(let i = 0; i < recipes.length; i++) {
-    for(let j = 0; j < recipes[i].ingredients.length; j++){
+  recipes.forEach((recipe) => {
+    recipe.ingredients.forEach((i) => {
+      const nomIngredient = formatString(i.ingredient);
 
-        const nomIngredient = recipes[i].ingredients[j].ingredient.toLowerCase();
-
-        if (!ingredientList.includes(nomIngredient)){
-            ingredientList.push(recipes[i].ingredients[j].ingredient);
-        }
-    }
-  }
-
-  console.log(ingredientList);
+      if (!ingredientList.includes(nomIngredient)) {
+        ingredientList.push(nomIngredient);
+      }
+    });
+  });
 
   return ingredientList;
 }
@@ -69,11 +68,13 @@ export function getListIngredients(recipes) {
 export function getListAppliance(recipes) {
   let applianceList = [];
 
-  for(let i = 0; i < recipes.length; i++) {
-    if(!applianceList.includes(recipes[i].appliance)){
-        applianceList.push(recipes[i].appliance);
+  recipes.forEach((recipe) => {
+    const nomAppareil = formatString(recipe.appliance);
+
+    if (!applianceList.includes(nomAppareil)) {
+      applianceList.push(nomAppareil);
     }
-  }
+  });
 
   return applianceList;
 }
@@ -86,13 +87,15 @@ export function getListAppliance(recipes) {
 export function getListUstensils(recipes) {
   let ustensilsList = [];
 
-  for(let i = 0; i < recipes.length; i++){
-    for(let j = 0; j < recipes[i].ustensils.length; j++){
-        if(!ustensilsList.includes(recipes[i].ustensils[j])){
-            ustensilsList.push(recipes[i].ustensils[j]);
-        }
-    }
-  }
+  recipes.forEach((recipe) => {
+    recipe.ustensils.forEach((ustensil) => {
+      const nomUstensil = formatString(ustensil);
+
+      if (!ustensilsList.includes(nomUstensil)) {
+        ustensilsList.push(nomUstensil);
+      }
+    });
+  });
 
   return ustensilsList;
 }

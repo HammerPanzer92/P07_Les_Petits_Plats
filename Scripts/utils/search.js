@@ -5,26 +5,32 @@
  * @returns {Array} Un tableau correspond au résultat de la recherche
  */
 export function searchArray(array, input) {
+
+  const inputLow = input.toLowerCase();
+
   const result = [];
 
   for (let i = 0; i < array.length; i++) {
     var recipe = array[i];
 
+    const nomRecipes = recipe.name.toLowerCase();
+
+    const descRecipes = recipe.desc.toLowerCase();
+
     //On vérifie si la recherche correspond au nom ou a la description
-    if (recipe.name.includes(input)) {
+    if (nomRecipes.includes(inputLow)) {
       result.push(recipe);
       continue;
-    } else if (recipe.description.includes(input)) {
+    } else if (descRecipes.includes(inputLow)) {
       result.push(recipe);
       continue;
     }
 
     for (let j = 0; j < recipe.ingredients.length; j++) {
-      const inputLow = input.toLowerCase();
 
       const nomIngredient = recipe.ingredients[j].ingredient.toLowerCase();
 
-      if (inputLow === nomIngredient) {
+      if (nomIngredient.includes(inputLow)) {
         result.push(recipe);
         break;
       }
@@ -100,4 +106,20 @@ export function searchByUstensils(array, input) {
   }
 
   return result;
+}
+
+export function searchAllTags(array, tagsObject){
+  let result = array;
+
+  for (let i; i < tagsObject["ingredients-list"].length; i++){
+    result = searchByIngredient(result, tagsObject["ingredients-list"][i]);
+  }
+
+  for (let i; i < tagsObject["appliances-list"].length; i++){
+    result = searchByAppliance(result, tagsObject["appliances-list"][i]);
+  }
+
+  for (let i; i < tagsObject["ustensils-list"].length; i++){
+    result = searchByUstensils(result, tagsObject["ustensils-list"][i]);
+  }
 }

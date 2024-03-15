@@ -4,40 +4,78 @@ import {
   getListUstensils,
 } from "./recipes.js";
 
+const selectTagsListDOM = document.getElementById("select-tags-list");
+
+const selectedListsDOM = document.querySelectorAll(".selected-list");
+
 /**
  * Mets à jour d'un select pour afficher les options souhaités
- * @param {Array} optionsList Tableau des options a affiché
- * @param {HTMLSelectElement} selectDOM L'élément Select a modifié
+ * @param {HTMLUListElement} ULDom Element DOM de la liste a modifié
+ * @param {Object} tagsList Liste des tags sélectionné
+ * @param {Array} searchResults Liste des recettes sur laquelle effectué la recherche
  */
-export function updateFilterSelect(optionsList, selectDOM) {
-
-  while (selectDOM.childNodes[3]) {
-    selectDOM.removeChild(selectDOM.childNodes[3]);
+export function updateFilterSelect(ulDOM, tagsList, searchResults) {
+  while (ulDOM.firstChild) {
+    ulDOM.removeChild(ulDOM.firstChild);
   }
 
-  optionsList.forEach((option) => {
-    const elementDOM = document.createElement("option");
-    elementDOM.value = option;
-    elementDOM.innerText = option;
+  const ulId = ulDOM.id;
 
-    selectDOM.appendChild(elementDOM);
+  let resultTags = [];
+
+  const selectedListId = "selected-" + ulId.split("-")[0];
+
+  const selectedListDOM = document.getElementById(selectedListId);
+
+  switch (ulId) {
+    case "ingredients-list":
+      resultTags = getListIngredients(searchResults);
+      break;
+    case "appliances-list":
+      resultTags = getListAppliance(searchResults);
+      break;
+    case "ustensils-list":
+      resultTags = getListUstensils(searchResults);
+      break;
+    default:
+      break;
+  }
+
+  resultTags.forEach((tag) => {
+    const line = document.createElement("li");
+    line.innerText = tag;
+
+    //Ajout de la classe si tag in tagslist
+    if (tagsList[ulId].includes(tag)) {
+      const lineSelectedList = line.cloneNode();
+      lineSelectedList.innerText = tag;
+
+      selectTagsListDOM.appendChild(line);
+      selectedListDOM.appendChild(lineSelectedList);
+    } else {
+      ulDOM.appendChild(line);
+    }
   });
 }
 
 /**
  * Mets à jour tout les select a partir d'un tableau de recettes
- * @param {Array} recipesList Liste des recettes
+ * @param {Array} listDOM Tableau contenant les <ul> a mettre a jour
+ * @param {Object} listTags Liste des tags sélectionner
+ * @param {Array} searchResults Liste des recettes
  */
-export function updateFilterAll(recipesList) {
-  const selectIngredient = document.getElementById("ingredientfilter");
+export function updateFilterAll(listDOM, listTags, searchResults) {
+  while (selectTagsListDOM.firstChild) {
+    selectTagsListDOM.removeChild(selectTagsListDOM.firstChild);
+  }
 
-  updateFilterSelect(getListIngredients(recipesList), selectIngredient);
+  selectedListsDOM.forEach((element) => {
+    while(element.firstChild){
+      element.removeChild(element.firstChild);
+    }
+  })
 
-  const appliancefilter = document.getElementById("appliancefilter");
-
-  updateFilterSelect(getListAppliance(recipesList), appliancefilter);
-
-  const ustensilfilter = document.getElementById("ustensilsfilter");
-
-  updateFilterSelect(getListUstensils(recipesList), ustensilfilter);
+  listDOM.forEach((node) => {
+    updateFilterSelect(node, listTags, searchResults);
+  });
 }
