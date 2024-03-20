@@ -6,35 +6,76 @@ import { formatString } from "./strings.js";
  * @returns L'élément DOM contenant les infos de la recette
  */
 export function getRecipeCardDOM(recipe) {
+  const imageSrc = "./Photos/" + recipe.image;
+
+  const duration = recipe.time + "min";
+
   const article = document.createElement("article");
+
+  const imageDOM = document.createElement("img");
+  imageDOM.src = imageSrc;
+  article.appendChild(imageDOM);
+
+  const durationDOM = document.createElement("div");
+  durationDOM.classList.add("duration-container");
+  durationDOM.innerHTML = "<p>" + duration + "</p>";
+  article.appendChild(durationDOM);
+
+  const containerDOM = document.createElement("div");
+
   const titre = document.createElement("h1");
   titre.innerText = recipe.name;
 
-  article.appendChild(titre);
+  containerDOM.appendChild(titre);
+  containerDOM.classList.add("card-content");
+
+  const h2recetteDOM = document.createElement("h2");
+  h2recetteDOM.innerHTML = "Recette";
+  containerDOM.appendChild(h2recetteDOM);
 
   const description = document.createElement("p");
   description.innerText = recipe.description;
 
-  article.appendChild(description);
+  containerDOM.appendChild(description);
 
-  const listeIngredients = document.createElement("ul");
+  const h2Ingredient = document.createElement("h2");
+  h2Ingredient.innerText = "Ingrédients";
+
+  containerDOM.appendChild(h2Ingredient);
+
+  const listeIngredients = document.createElement("div");
+  listeIngredients.classList.add("card-liste-ingredient");
 
   recipe.ingredients.forEach((ingredient) => {
-    const ligne = document.createElement("li");
+    const ligne = document.createElement("div");
 
-    ligne.innertText = "";
+    const nomIngredientDOM = document.createElement("p");
+    nomIngredientDOM.classList.add("nom-ingredient");
+    nomIngredientDOM.innerText = ingredient.ingredient;
+
+    ligne.appendChild(nomIngredientDOM);
+
+    const detailIngredientDOM = document.createElement("p");
+    detailIngredientDOM.classList.add("detail-ingredient");
+
+    let textDetail = "";
     if(ingredient.quantity){
-        ligne.innerText += ingredient.quantity + " ";
+      textDetail += ingredient.quantity;
     }
     if(ingredient.unit){
-        ligne.innerText += ingredient.unit + " de ";
+      textDetail += ingredient.unit;
     }
-    ligne.innerText += ingredient.ingredient
+
+    detailIngredientDOM.innerText = textDetail;
+
+    ligne.appendChild(detailIngredientDOM);
 
     listeIngredients.appendChild(ligne);
   });
 
-  article.appendChild(listeIngredients);
+  containerDOM.appendChild(listeIngredients);
+
+  article.appendChild(containerDOM);
 
   return article;
 }
