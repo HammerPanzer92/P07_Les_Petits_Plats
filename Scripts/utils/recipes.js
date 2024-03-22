@@ -63,7 +63,7 @@ export function getRecipeCardDOM(recipe) {
       textDetail += ingredient.quantity;
     }
     if(ingredient.unit){
-      textDetail += ingredient.unit;
+      textDetail += " " + ingredient.unit;
     }
 
     detailIngredientDOM.innerText = textDetail;

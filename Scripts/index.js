@@ -118,6 +118,8 @@ function updateIndexDOM() {
 function clickTag(e) {
   const element = e.target;
 
+  console.log(element.innerText);
+
   const idList = element.parentNode.id;
 
   if (!selectedTagsList[idList].includes(e.target.innerText)) {
@@ -150,7 +152,7 @@ function clickSelectedTags(e) {
 
     for(let j in selectedTagsList[i]){
       if(selectedTagsList[i][j] === nomTag){
-        selectedTagsList[i].splice(selectedTagsList[i].indexOf(j), 1);
+        selectedTagsList[i].splice(selectedTagsList[i].indexOf(nomTag), 1);
         found = true;
         element.parentNode.removeChild(element);
         break;

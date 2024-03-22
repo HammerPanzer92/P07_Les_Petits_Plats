@@ -6,6 +6,7 @@ a {
 
 body{
   background-color: #EDEDED;
+  margin: 0;
 }
 
 /*-- Header --*/
@@ -86,12 +87,28 @@ header p {
   border: none;
 }
 
+.search-container button img{
+  filter: invert(100%);
+  width: 28px;
+  height: 28px;
+}
+
+.search-container button:hover{
+  background-color: #FFD15B;
+}
+
+.search-container button:hover img{
+  filter: invert(0%);
+}
+
 /*-- Filtres/Tags --*/
 .tags-container{
   display: flex;
   flex-direction: row;
+  position: relative;
   margin-left: 102px;
   margin-right: 102px;
+  height: 56px;
 }
 
 .tags-container .filter-container{
@@ -100,7 +117,7 @@ header p {
 
 .filter-container{
   width: 195px;
-  max-height: 315px;
+  height: 315px;
   border-radius: 20px;
   filter: drop-shadow(0 4px 34px rgba(0,0,0,0.04));
   background-color: #FFFFFF;
@@ -108,11 +125,34 @@ header p {
   padding-top: 14px;
   margin-top: 21px;
   font-family: "Manrope";
+  position: absolute;
+  z-index: 1;
+}
+
+#appliances-block{
+  left: 261px;
+}
+
+#ustensils-block{
+  left: 522px;
 }
 
 .tags-list-container {
   overflow: scroll;
-  height: 78%;
+  overflow-x: hidden;
+  height: calc(100% - 120px);
+}
+
+.label-container{
+  margin: 14px 16px 14px 16px;
+  display: flex;
+  width: calc(100% - (16px + 14px));
+  justify-content: space-between;
+}
+
+.label-container img{
+  height: 15px;
+  align-self: center;
 }
 
 .filter-container label{
@@ -127,7 +167,7 @@ header p {
   line-height: 19.12px;
 }
 
-.filter-container input, label{
+.filter-container input{
   margin: 14px 16px 16px 14px;
 }
 
@@ -161,6 +201,7 @@ header p {
 .select-tags-list{
   margin-left: 102px;
   margin-right: 102px;
+  flex-direction: row;
 }
 
 .select-tags-list li{
