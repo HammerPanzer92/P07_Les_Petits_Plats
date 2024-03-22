@@ -117,16 +117,30 @@ header p {
 
 .filter-container{
   width: 195px;
-  height: 315px;
   border-radius: 20px;
   filter: drop-shadow(0 4px 34px rgba(0,0,0,0.04));
   background-color: #FFFFFF;
   overflow: hidden;
-  padding-top: 14px;
   margin-top: 21px;
   font-family: "Manrope";
   position: absolute;
   z-index: 1;
+}
+
+.filter-open{
+  height: 351px;
+}
+
+.filter-open img{
+  rotate: 0deg;
+}
+
+.filter-close{
+  height: 56px
+}
+
+.filter-close img{
+  rotate: 180deg;
 }
 
 #appliances-block{
@@ -144,14 +158,15 @@ header p {
 }
 
 .label-container{
-  margin: 14px 16px 14px 16px;
+  margin: 14px 16px 7px 16px;
+  padding-top: 2px;
   display: flex;
   width: calc(100% - (16px + 14px));
   justify-content: space-between;
 }
 
 .label-container img{
-  height: 15px;
+  height: 20px;
   align-self: center;
 }
 
@@ -161,14 +176,19 @@ header p {
   line-height: 21.86px;
 }
 
+.filter-close input{
+  margin-top: 14px !important;
+}
+
+.filter-open input{
+  margin-top: 7px !important;
+}
+
 .filter-container input{
   font-weight: 400;
   font-size: 14px;
   line-height: 19.12px;
-}
-
-.filter-container input{
-  margin: 14px 16px 16px 14px;
+  margin: 0 16px 16px 14px;
 }
 
 .selected-list{

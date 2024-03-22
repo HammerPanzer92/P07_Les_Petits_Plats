@@ -14,6 +14,9 @@ const selectedListsDOMs = document.querySelectorAll(".selected-list");
 //Input de recherche dans les tags
 const tagsInput = document.querySelectorAll(".tag-search-input");
 
+//Container des listes de tags
+const filterContainerDOM = document.getElementsByClassName("filter-container");
+
 //Résultat de la recherche actuelle (pa défaut toute les recettes)
 let searchResults = recipes;
 
@@ -23,6 +26,28 @@ const selectedTagsList = {
   "appliances-list": [],
   "ustensils-list": [],
 };
+
+for (let i = 0; i < filterContainerDOM.length; i++) {
+  const containerDOM = filterContainerDOM[i];
+
+  const labelContainer = containerDOM.querySelector(".label-container");
+
+  labelContainer.onclick = () => {
+    containerDOM.classList.toggle("filter-open");
+    containerDOM.classList.toggle("filter-close");
+    for (let j = 0; j < filterContainerDOM.length; j++) {
+      const element = filterContainerDOM[j];
+
+      if (
+        element != containerDOM &&
+        element.classList.contains("filter-open")
+      ) {
+        element.classList.remove("filter-open");
+        element.classList.add("filter-close");
+      }
+    }
+  };
+}
 
 tagsInput.forEach((input) => {
   input.oninput = (e) => {
@@ -35,13 +60,13 @@ tagsInput.forEach((input) => {
     const listTarget = document.getElementById(type + "-list");
 
     listTarget.childNodes.forEach((node) => {
-      if(!node.innerText.includes(element.value)){
+      if (!node.innerText.includes(element.value)) {
         node.style.display = "none";
-      }else{
+      } else {
         node.style.display = "list-item";
       }
     });
-  }
+  };
 });
 
 /**
@@ -54,22 +79,23 @@ function searchByInput() {
 
   const value = searchInput.value;
 
-  let result = [];
+  let result = recipes;
 
+  //Si il a plus de 2 caractères, on lance une recherche par mots (séparés via split())
   if (value.length > 2) {
-    result = searchArray(recipes, value);
-  } else {
-    result = recipes;
+    const tabValues = value.split(" ");
+    for (let i = 0; i < tabValues.length; i++) {
+      result = searchArray(result, tabValues[i]);
+    }
   }
-
   return result;
 }
 
-document.getElementById("searchBar").oninput = () => {
+document.getElementById("searchButton").onclick = () => {
   searchResults = searchByInput();
 
   updateIndexDOM();
-}
+};
 
 /**
  * Mets à jour l'affiche de la page index
@@ -79,7 +105,7 @@ function updateIndexDOM() {
 
   tagsInput.forEach((input) => {
     input.value = "";
-  })
+  });
 
   const gridDOM = document.getElementById("searchResult");
 
@@ -107,7 +133,7 @@ function updateIndexDOM() {
     list.childNodes.forEach((node) => {
       node.onclick = clickSelectedTags;
     });
-  })
+  });
 }
 
 /**
@@ -146,12 +172,11 @@ function clickSelectedTags(e) {
 
   const nomTag = element.innerText;
 
-  for(let i in selectedTagsList) {
-
+  for (let i in selectedTagsList) {
     let found = false;
 
-    for(let j in selectedTagsList[i]){
-      if(selectedTagsList[i][j] === nomTag){
+    for (let j in selectedTagsList[i]) {
+      if (selectedTagsList[i][j] === nomTag) {
         selectedTagsList[i].splice(selectedTagsList[i].indexOf(nomTag), 1);
         found = true;
         element.parentNode.removeChild(element);
@@ -159,7 +184,7 @@ function clickSelectedTags(e) {
       }
     }
 
-    if(found){
+    if (found) {
       break;
     }
   }
@@ -175,3 +200,5 @@ function init() {
 }
 
 init();
+
+console.log(recipes[0].description.includes(""));
