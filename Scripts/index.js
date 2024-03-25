@@ -2,6 +2,7 @@ import { searchAllTags, searchArray } from "./utils/search.js";
 import { recipes } from "./Data/recipes.js";
 import { getRecipeCardDOM } from "./utils/recipes.js";
 import { updateFilterAll } from "./utils/select.js";
+import { checkLength, checkStr } from "./utils/security.js";
 
 //Element UL contenant les tags (ingrédients, appareils etc...)
 const tagsListDOM = document.querySelectorAll(".tags-list");
@@ -53,19 +54,19 @@ tagsInput.forEach((input) => {
   input.oninput = (e) => {
     const element = e.target;
 
-    const type = element.id.split("-")[0];
+    if (checkLength(element.value) && checkStr(element.value)) {
+      const type = element.id.split("-")[0];
 
-    console.log(type + "-list");
+      const listTarget = document.getElementById(type + "-list");
 
-    const listTarget = document.getElementById(type + "-list");
-
-    listTarget.childNodes.forEach((node) => {
-      if (!node.innerText.includes(element.value)) {
-        node.style.display = "none";
-      } else {
-        node.style.display = "list-item";
-      }
-    });
+      listTarget.childNodes.forEach((node) => {
+        if (!node.innerText.includes(element.value)) {
+          node.style.display = "none";
+        } else {
+          node.style.display = "list-item";
+        }
+      });
+    }
   };
 });
 
@@ -82,10 +83,12 @@ function searchByInput() {
   let result = recipes;
 
   //Si il a plus de 2 caractères, on lance une recherche par mots (séparés via split())
-  if (value.length > 2) {
+  if (checkLength(value)) {
     const tabValues = value.split(" ");
     for (let i = 0; i < tabValues.length; i++) {
-      result = searchArray(result, tabValues[i]);
+      if (checkStr(tabValues[i])) {
+        result = searchArray(result, tabValues[i]);
+      }
     }
   }
   return result;
