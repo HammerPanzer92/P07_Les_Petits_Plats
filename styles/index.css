@@ -75,6 +75,16 @@ header p {
   padding-bottom: 26px;
 }
 
+#clear-search-input{
+  height: auto;
+  width: 25px;
+  position: absolute;
+  top: 26px;
+  right: 86px;
+  display: none;
+  filter: brightness(0) saturate(100%) invert(52%) sepia(2%) saturate(14%) hue-rotate(63deg) brightness(91%) contrast(81%);
+}
+
 .search-container button {
   position: absolute;
   top: 10px;
@@ -93,21 +103,26 @@ header p {
   height: 28px;
 }
 
-.search-container button:hover{
+.search-container button:focus{
   background-color: #FFD15B;
 }
 
-.search-container button:hover img{
+.search-container button:focus img{
   filter: invert(0%);
 }
 
 /*-- Filtres/Tags --*/
+.upper-container{  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 102px 102px 102px;
+}
+
 .tags-container{
   display: flex;
   flex-direction: row;
   position: relative;
-  margin-left: 102px;
-  margin-right: 102px;
   height: 56px;
 }
 
@@ -221,7 +236,9 @@ header p {
 .select-tags-list{
   margin-left: 102px;
   margin-right: 102px;
-  flex-direction: row;
+  flex-direction: row;  
+  padding-left: 0;
+  margin-top: 42px;
 }
 
 .select-tags-list li{
@@ -230,6 +247,11 @@ header p {
   border-radius: 10px;
   padding: 17px 18px;
   background-color: #FFD15B;
+}
+
+.select-tags-list li img{
+  height: auto;
+  width: 15px;
 }
 
 .tag-search-input{
@@ -255,7 +277,10 @@ ul{
 }
 
 .recipes-counter{
-  align-self: flex-end;
+  font-family: "Anton";
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 31.61px;
 }
 
 /*-- Recettes --*/

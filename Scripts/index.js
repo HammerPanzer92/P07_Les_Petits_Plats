@@ -28,6 +28,17 @@ const selectedTagsList = {
   "ustensils-list": [],
 };
 
+document.getElementById("clear-search-input").onclick = (e) =>{
+  document.getElementById("searchBar").value = "";
+  e.target.style.display = "none";
+};
+
+document.getElementById("searchBar").oninput = (e) =>{
+  if(checkLength(e.target.value)){
+    document.getElementById("clear-search-input").style.display = "block";
+  }
+};
+
 for (let i = 0; i < filterContainerDOM.length; i++) {
   const containerDOM = filterContainerDOM[i];
 
@@ -94,7 +105,9 @@ function searchByInput() {
   return result;
 }
 
-document.getElementById("searchButton").onclick = () => {
+document.getElementById("searchButton").onclick = (e) => {
+  document.activeElement.blur()
+
   searchResults = searchByInput();
 
   updateIndexDOM();
@@ -137,6 +150,8 @@ function updateIndexDOM() {
       node.onclick = clickSelectedTags;
     });
   });
+
+  document.querySelector(".recipes-counter").innerText = searchResults.length + " recettes"
 }
 
 /**
@@ -146,8 +161,6 @@ function updateIndexDOM() {
  */
 function clickTag(e) {
   const element = e.target;
-
-  console.log(element.innerText);
 
   const idList = element.parentNode.id;
 
@@ -203,5 +216,3 @@ function init() {
 }
 
 init();
-
-console.log(recipes[0].description.includes(""));
