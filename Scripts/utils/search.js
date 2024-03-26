@@ -15,7 +15,7 @@ export function searchArray(array, input) {
 
     const nomRecipes = recipe.name.toLowerCase();
 
-    const descRecipes = recipe.desc.toLowerCase();
+    const descRecipes = recipe.description.toLowerCase();
 
     //On vérifie si la recherche correspond au nom ou a la description
     if (nomRecipes.includes(inputLow)) {
@@ -122,4 +122,6 @@ export function searchAllTags(array, tagsObject){
   for (let i; i < tagsObject["ustensils-list"].length; i++){
     result = searchByUstensils(result, tagsObject["ustensils-list"][i]);
   }
+
+  return result;
 }

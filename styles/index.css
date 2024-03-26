@@ -1,0 +1,370 @@
+/*Suppression du style par défaut des liens*/
+a {
+  text-decoration: none;
+  color: black;
+}
+
+body{
+  background-color: #EDEDED;
+  margin: 0;
+}
+
+/*-- Header --*/
+header {
+  width: 100%;
+  height: 667px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-image: url("../Images/header-bg.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+header a,
+header p {
+  font-family: "Anton";
+}
+
+header nav {
+  align-self: flex-start;  
+  margin: 51px 0 0 69px;
+}
+
+header a {
+    color: white;
+}
+
+header a img{
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+}
+
+header p {
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 66px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #ffd15b;
+  height: 132px;
+  width: 890px;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-container input[type="text"] {
+  width: calc(954px - 35px);
+  height: calc(72px - (24px + 26px));
+  border-radius: 11px;
+  border-width: 1px;
+  font-family: "Manrope";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-left: 35px;
+  padding-top: 24px;
+  padding-bottom: 26px;
+}
+
+#clear-search-input{
+  height: auto;
+  width: 25px;
+  position: absolute;
+  top: 26px;
+  right: 86px;
+  display: none;
+  filter: brightness(0) saturate(100%) invert(52%) sepia(2%) saturate(14%) hue-rotate(63deg) brightness(91%) contrast(81%);
+}
+
+.search-container button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 51px;
+  height: 52px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  border: none;
+}
+
+.search-container button img{
+  filter: invert(100%);
+  width: 28px;
+  height: 28px;
+}
+
+.search-container button:focus{
+  background-color: #FFD15B;
+}
+
+.search-container button:focus img{
+  filter: invert(0%);
+}
+
+/*-- Filtres/Tags --*/
+.upper-container{  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 102px 102px 102px;
+}
+
+.tags-container{
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  height: 56px;
+}
+
+.tags-container .filter-container{
+  margin-right: 66px;
+}
+
+.filter-container{
+  width: 195px;
+  border-radius: 20px;
+  filter: drop-shadow(0 4px 34px rgba(0,0,0,0.04));
+  background-color: #FFFFFF;
+  overflow: hidden;
+  margin-top: 21px;
+  font-family: "Manrope";
+  position: absolute;
+  z-index: 1;
+}
+
+.filter-open{
+  height: 351px;
+}
+
+.filter-open img{
+  rotate: 0deg;
+}
+
+.filter-close{
+  height: 56px
+}
+
+.filter-close img{
+  rotate: 180deg;
+}
+
+#appliances-block{
+  left: 261px;
+}
+
+#ustensils-block{
+  left: 522px;
+}
+
+.tags-list-container {
+  overflow: scroll;
+  overflow-x: hidden;
+  height: calc(100% - 120px);
+}
+
+.label-container{
+  margin: 14px 16px 7px 16px;
+  padding-top: 2px;
+  display: flex;
+  width: calc(100% - (16px + 14px));
+  justify-content: space-between;
+}
+
+.label-container img{
+  height: 20px;
+  align-self: center;
+}
+
+.filter-container label{
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21.86px;
+}
+
+.filter-close input{
+  margin-top: 14px !important;
+}
+
+.filter-open input{
+  margin-top: 7px !important;
+}
+
+.filter-container input{
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19.12px;
+  margin: 0 16px 16px 14px;
+}
+
+.selected-list{
+  background-color: #FFD15B;
+}
+
+.selected-list li:first-child{
+  padding-top: 10px;
+}
+
+.selected-list li:last-child{
+  padding-bottom: 10px;
+}
+
+.tags-list-container{
+  font-family: "Manrope";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19.12px;
+}
+
+.tags-list-container ul {
+  padding-left: 16px;
+}
+
+.tags-list-container ul li{
+  height: 15px;
+}
+
+.select-tags-list{
+  margin-left: 102px;
+  margin-right: 102px;
+  flex-direction: row;  
+  padding-left: 0;
+  margin-top: 42px;
+}
+
+.select-tags-list li{
+  width: 141px;
+  height: 18px;
+  border-radius: 10px;
+  padding: 17px 18px;
+  background-color: #FFD15B;
+}
+
+.select-tags-list li img{
+  height: auto;
+  width: 15px;
+}
+
+.tag-search-input{
+  width: calc(163px - 20px);
+  height: calc(36px - 18px);
+  border-radius: 1px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #C6C6C6;
+  padding: 9px 10px;
+}
+
+ul{
+  list-style: none;
+  font-family: "Manrope";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19.12px;
+  color:#1B1B1B;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipes-counter{
+  font-family: "Anton";
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 31.61px;
+}
+
+/*-- Recettes --*/
+
+.recettes-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 43px 102px 173px 102px;
+  gap: 48px 66px;
+}
+
+.recettes-grid article{
+  width: 380px;
+  min-height: 731px;
+  border-radius: 21px;
+  filter: drop-shadow(0 4px 34px rgba(0,0,0,0.04));
+  background-color: white;
+  position: relative;
+  font-family: "Manrope";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16.39px;
+}
+
+.recettes-grid article img{
+  width: 100%;
+  height: 253px;
+  object-fit: cover;
+  border-radius: 21px 21px 0 0;
+}
+
+.duration-container{
+  position: absolute;
+  background-color: #FFD15B;
+  width: 63px;
+  height: 21px;
+  border-radius: 14px;
+  top: 21px;
+  left: 295px;
+  padding: 5px 0;
+}
+
+.duration-container p{
+  margin: auto;
+  text-align: center;
+
+}
+
+.card-content{
+  padding: 0 25px;
+}
+
+.recettes-grid article h1{
+  font-family: "Anton";
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27.1px;
+}
+
+.card-content h2{
+  font-weight: 700;
+  color: #7A7A7A;
+}
+
+.card-content p{
+  font-size: 14px;
+  line-height: 19.12px;
+}
+
+.card-liste-ingredient{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.nom-ingredient{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19.12px;
+  margin-bottom: 1px;
+}
+
+.detail-ingredient{
+  font-size: 14px;
+  line-height: 19.12px;
+  color: #7A7A7A;
+  margin-top: 0px;
+}

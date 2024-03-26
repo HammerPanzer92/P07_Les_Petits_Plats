@@ -47,8 +47,7 @@ export function updateFilterSelect(ulDOM, tagsList, searchResults) {
 
     //Ajout de la classe si tag in tagslist
     if (tagsList[ulId].includes(tag)) {
-      const lineSelectedList = line.cloneNode();
-      lineSelectedList.innerText = tag;
+      const lineSelectedList = line.cloneNode(true);
 
       selectTagsListDOM.appendChild(line);
       selectedListDOM.appendChild(lineSelectedList);
