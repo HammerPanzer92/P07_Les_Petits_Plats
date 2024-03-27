@@ -30,7 +30,10 @@ const selectedTagsList = {
 
 document.getElementById("clear-search-input").onclick = (e) =>{
   document.getElementById("searchBar").value = "";
-  e.target.style.display = "none";
+  e.target.style.display = "none";  
+  searchResults = recipes;
+  searchResults = searchAllTags(searchResults, selectedTagsList);
+  updateIndexDOM();
 };
 
 document.getElementById("searchBar").oninput = (e) =>{
