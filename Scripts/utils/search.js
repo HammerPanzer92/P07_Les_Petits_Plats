@@ -10,7 +10,9 @@ export function searchArray(array, input) {
 
   const result = [];
 
-  for (let i = 0; i < array.length; i++) {
+  const arrayLength = array.length;
+
+  for (let i = 0; i < arrayLength; i++) {
     var recipe = array[i];
 
     const nomRecipes = recipe.name.toLowerCase();
@@ -26,7 +28,9 @@ export function searchArray(array, input) {
       continue;
     }
 
-    for (let j = 0; j < recipe.ingredients.length; j++) {
+    const ingredientsLength = recipe.ingredients.length;
+
+    for (let j = 0; j < ingredientsLength; j++) {
 
       const nomIngredient = recipe.ingredients[j].ingredient.toLowerCase();
 
