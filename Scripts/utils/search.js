@@ -112,6 +112,12 @@ export function searchByUstensils(array, input) {
   return result;
 }
 
+/**
+ * Lance une recherche sur tout les tags (d'abord les ingrédients, puis les appareils puis les ustensils dans cet ordre)
+ * @param {Array} array Le tableau dans lequel effectué la recherche
+ * @param {Object} tagsObject Un objet contenant les tags sélectionnés
+ * @returns Le résultat de la recherche
+ */
 export function searchAllTags(array, tagsObject){
   let result = array;
 

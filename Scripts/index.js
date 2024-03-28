@@ -28,16 +28,16 @@ const selectedTagsList = {
   "ustensils-list": [],
 };
 
-document.getElementById("clear-search-input").onclick = (e) =>{
+document.getElementById("clear-search-input").onclick = (e) => {
   document.getElementById("searchBar").value = "";
-  e.target.style.display = "none";  
+  e.target.style.display = "none";
   searchResults = recipes;
   searchResults = searchAllTags(searchResults, selectedTagsList);
   updateIndexDOM();
 };
 
-document.getElementById("searchBar").oninput = (e) =>{
-  if(checkLength(e.target.value)){
+document.getElementById("searchBar").oninput = (e) => {
+  if (checkLength(e.target.value)) {
     document.getElementById("clear-search-input").style.display = "block";
   }
 };
@@ -100,7 +100,7 @@ function searchByInput() {
   if (checkLength(value)) {
     const tabValues = value.split(" ");
     for (let i = 0; i < tabValues.length; i++) {
-      if (checkStr(tabValues[i])) {
+      if (checkLength(tabValues[i]) && checkStr(tabValues[i])) {
         result = searchArray(result, tabValues[i]);
       }
     }
@@ -109,7 +109,7 @@ function searchByInput() {
 }
 
 document.getElementById("searchButton").onclick = (e) => {
-  document.activeElement.blur()
+  document.activeElement.blur();
 
   searchResults = searchByInput();
 
@@ -156,7 +156,8 @@ function updateIndexDOM() {
     });
   });
 
-  document.querySelector(".recipes-counter").innerText = searchResults.length + " recettes"
+  document.querySelector(".recipes-counter").innerText =
+    searchResults.length + " recettes";
 }
 
 /**
@@ -177,7 +178,7 @@ function clickTag(e) {
       1
     );
   }
-  
+
   searchResults = searchByInput();
 
   searchResults = searchAllTags(searchResults, selectedTagsList);
