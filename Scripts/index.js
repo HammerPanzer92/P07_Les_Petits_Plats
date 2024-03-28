@@ -100,7 +100,7 @@ function searchByInput() {
   if (checkLength(value)) {
     const tabValues = value.split(" ");
     for (let i = 0; i < tabValues.length; i++) {
-      if (checkStr(tabValues[i])) {
+      if (checkLength(tabValues[i]) && checkStr(tabValues[i])) {
         result = searchArray(result, tabValues[i]);
       }
     }
