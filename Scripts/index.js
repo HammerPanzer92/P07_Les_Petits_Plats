@@ -108,7 +108,7 @@ function searchByInput() {
   return result;
 }
 
-document.getElementById("searchButton").onclick = (e) => {
+document.getElementById("searchButton").onclick = () => {
   document.activeElement.blur();
 
   searchResults = searchByInput();

@@ -10,5 +10,5 @@ export function formatString(str) {
 
     text = text.slice(1);
 
-    return firstLetter + text
-};
+    return firstLetter + text;
+}
