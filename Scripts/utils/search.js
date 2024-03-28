@@ -24,7 +24,7 @@ export function searchArray(array, input) {
 
     //On vérifie si la recherche correspond a un ingrédient
     recipe.ingredients.forEach((ingredient) => {
-      const nomIngredient = ingredient.ingredient.toLowerCase()
+      const nomIngredient = ingredient.ingredient.toLowerCase();
 
       if (nomIngredient.includes(inputLow)) {
         result = true;
