@@ -67,18 +67,19 @@ for (let i = 0; i < filterContainerDOM.length; i++) {
 tagsInput.forEach((input) => {
   input.oninput = (e) => {
     const element = e.target;
-
+    const type = element.id.split("-")[0];
+    const listTarget = document.getElementById(type + "-list");
     if (checkLength(element.value) && checkStr(element.value)) {
-      const type = element.id.split("-")[0];
-
-      const listTarget = document.getElementById(type + "-list");
-
       listTarget.childNodes.forEach((node) => {
         if (!node.innerText.includes(element.value)) {
           node.style.display = "none";
         } else {
           node.style.display = "list-item";
         }
+      });
+    } else {
+      listTarget.childNodes.forEach((node) => {
+        node.style.display = "list-item";
       });
     }
   };
